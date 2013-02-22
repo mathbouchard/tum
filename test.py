@@ -13,7 +13,7 @@ efilter = {'filter' : f, 'value' : 1}
 elems = u.getInitialElements(defaultphysics.ugetinitialelements, efilter)
 reachelems = u.getReachables(defaultphysics.ugetreachables, elems, efilter)
 w2 = World(reachelems)
-#w2.printElements()
+w2.printElements()
 altelems = u.getInitialElements(customphysics.custominitials, None)
 for e in altelems:
     print e.attr[0].name + ' (' +str(e.getOutputs(customphysics.customoutputs, None)[0].dblval) + ')'

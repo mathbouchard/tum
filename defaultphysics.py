@@ -62,11 +62,13 @@ def ugetinduals(o, efilter):
         i = o.u.workspace['sin'][o.attr[0].dblval]
         e = universe.Element(o.u, 'transition', 1, [])
         e.attr.append(universe.Attribute("move"+str(i), str(i), i))
+        e.qty=1.0+o.qty
         s.add(e)
     else:
         i = o.u.workspace['tin'][o.attr[0].dblval]
         e = universe.Element(o.u, 'state', 1, [])
         e.attr.append(universe.Attribute("box"+str(i), str(i), i))
+        e.qty=1.0+o.qty
         s.add(e)
     if efilter != None:
         s = efilter['filter'](efilter,s)
@@ -81,11 +83,13 @@ def ugetoutduals(o, efilter):
         i = o.u.workspace['sout'][o.attr[0].dblval]
         e = universe.Element(o.u, 'transition', 1, [])
         e.attr.append(universe.Attribute("move"+str(i), str(i), i))
+        e.qty=1.0+o.qty
         s.add(e)
     else:
         i = o.u.workspace['tout'][o.attr[0].dblval]
         e = universe.Element(o.u, 'state', 1, [])
         e.attr.append(universe.Attribute("box"+str(i), str(i), i))
+        e.qty=1.0+o.qty
         s.add(e)
     if efilter != None:
         s = efilter['filter'](efilter,s)

@@ -51,7 +51,7 @@ class Element(object):
             hstr = hstr+a.name+a.strval+str(a.dblval)
         return hash(hstr)
     def __eq__(self, other):
-        return self.type == other.type and self.qty == other.qty and self.attr == other.attr
+        return self.type == other.type and self.attr == other.attr
     
                 
 # A set of values that defined an element or a measurable output
