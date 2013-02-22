@@ -9,18 +9,14 @@
 # created by : mathbouchard, 2013/02/21
 # modified by : mathbouchard, 2013/02/21
 
-from ugetinitialelements import ugetinitialelements
-from ugetdualelements import ugetindualelements, ugetoutdualelements, ugetalldualelements
-from ugetoutputs import ugetoutputs
-from ugetreachables import ugetreachables
-
 # The universe that encapsulates all possible elements and the
 # methods to retrieve them
 class Universe(object):
-    def getInitialElements(self, ofilter, odata):
-        return ugetinitialelements(ofilter, odata)
-    def getReachables(self, elems, ofilter, odata):
-        return ugetreachables(elems, ofilter, odata)
+    def getInitialElements(self, f, efilter):
+        return f(self, efilter)
+    def getReachables(self, f, elems, efilter):
+        return f(self, elems, efilter)
+    workspace = dict()
 
 # A partial view of a universe with a discrete number of elements
 class World(object):
@@ -36,23 +32,27 @@ class World(object):
 
 # An element description an the methods to get its neighbors dual elements
 class Element(object):
-    def __init__(self, t, q, a):
-        type = t
-        qty = q
+    def __init__(self, inu, t, q, a):
+        self.type = t
+        self.qty = q
         self.attr = a
-    def getInDualElements(self, ofilter, odata):
-        return ugetindualelements(self, ofilter, odata)
-    def getOutDualElements(self, ofilter, odata):
-        return ugetoutdualelements(self, ofilter, odata)
-    def getAllDualElements(self, ofilter, odata):
-        return ugetalldualelements(self, ofilter, odata)
-    def getOutputs(self, ofilter, odata):
-        return ugetoutputs(self, ofilter, odata)
-    def getstrval(self):
+        self.u = inu;
+    def getInDuals(self, f, efilter):
+        return f(self, efilter)
+    def getOutDuals(self, f, efilter):
+        return f(self, efilter)
+    def getAllDuals(self, f, efilter):
+        return f(self, efilter)
+    def getOutputs(self, f, efilter):
+        return f(self, efilter)
+    def __hash__(self):
         hstr = self.type;
         for a in self.attr:
-            hstr = hstr+a.name#+a.strval+str(a.dblval)
-        return hstr
+            hstr = hstr+a.name+a.strval+str(a.dblval)
+        return hash(hstr)
+    def __eq__(self, other):
+        return self.type == other.type and self.qty == other.qty and self.attr == other.attr
+    
                 
 # A set of values that defined an element or a measurable output
 class Attribute(object):
@@ -60,3 +60,5 @@ class Attribute(object):
         self.name = n
         self.strval = sv
         self.dblval = dv
+    def __eq__(self, other):
+        return self.name == other.name and self.strval == other.strval and self.dblval == other.dblval
